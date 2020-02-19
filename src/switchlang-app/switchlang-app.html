@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<dom-module id="switchlang-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    
+    <div>[[localize('hello','name','Batman')]]</div>
+    <paper-button on-click="switchLang" data-lang="en">English</paper-button>
+    <paper-button on-click="switchLang" data-lang="fr">Franch</paper-button>
+  </template>
+
+  <script>/**
+ * @customElement
+ * @polymer
+ */
+class SwitchlangApp extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
+  static get is() {
+    return 'switchlang-app';
+  }
+
+  static get behaviors() {
+    return [Polymer.AppLocalizeBehavior];
+  }
+
+  static get properties() {
+    return {
+      language: {
+        type: String,
+        value: 'fr'
+      } // resources: {
+      //   value() {
+      //     return {
+      //       'en': {"hello": "My name is {name}."},
+      //       'fr': {"hello": "Je m\'apelle {name}."},
+      //     }
+      //   }
+      // }
+
+    };
+  }
+
+  attached() {
+    this.loadResources(this.resolveUrl('./../../locales.json'));
+  }
+
+  switchLang(event) {
+    let lang = event.target.getAttribute('data-lang');
+    this.language = lang;
+  }
+
+}
+
+window.customElements.define(SwitchlangApp.is, SwitchlangApp);</script>
+</dom-module>
